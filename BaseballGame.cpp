@@ -43,14 +43,27 @@ private:
 
 		try
 		{
+			if (mNums.length() != LEN)
+				throw invalid_argument("1부터 9까지의 서로 다른 3자리 수가 아닙니다.\n");
+			for (size_t i = 0; i < LEN; i++)
+			{
+				if (mNums[i] < '1' || mNums[i] > '9')
+					throw invalid_argument("1부터 9까지의 서로 다른 3자리 수가 아닙니다.\n");
+
+				for (size_t j = 0; j < LEN; j++)
+				{
+					if (i != j && mNums[i] == mNums[j])
+						throw invalid_argument("1부터 9까지의 서로 다른 3자리 수가 아닙니다.\n");
+				}
+			}
 
 		}
-		catch (const exception& e)
+		catch (const invalid_argument& e)
 		{
-			cerr << "Caught: " << e.what() << endl;
-			cerr << "Type: " << typeid(e).name() << endl;
+			cerr << e.what();
+			cerr << typeid(e).name() << endl;
+			abort();
 		}
-		// strlen(mNums) == LEN이 아닌 경우, 서로 다른 3개의 수가 아닌 경우 invalid_argument 발생 후 종료(숫자인지, 중복인지)
 	}
 
 	int scoring()
